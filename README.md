@@ -5,8 +5,11 @@ Requires
 
 Walkthrough
 1. Look at the new values.yaml for PSO Helm Chart also install PSO more info:
+
 <https://github.com/purestorage/helm-charts/blob/master/pure-csi/values.yaml>
+
 <https://github.com/purestorage/helm-charts/tree/master/pure-csi>
+
 Remember you must have Labels for your FlashArrays and FlashBlades AND have the topology feature enabled in PSO before using this.
 Example syntax use the helm chart for authoratative settings:
 ```
