@@ -5,8 +5,8 @@ Requires
 
 Walkthrough
 1. Look at the new values.yaml for PSO Helm Chart also install PSO more info:
-https://github.com/purestorage/helm-charts/blob/master/pure-csi/values.yaml
-https://github.com/purestorage/helm-charts/tree/master/pure-csi
+<https://github.com/purestorage/helm-charts/blob/master/pure-csi/values.yaml>
+<https://github.com/purestorage/helm-charts/tree/master/pure-csi>
 Remember you must have Labels for your FlashArrays and FlashBlades AND have the topology feature enabled in PSO before using this.
 Example syntax use the helm chart for authoratative settings:
 ```
@@ -19,9 +19,12 @@ arrays:
       APIToken: "a526a4c6-18b0-a8c9-1afa-3499293574bb"
       Labels:
         topology.purestorage.com/rack: "22"
-         topology.purestorage.com/env: "prod"
+        topology.purestorage.com/env: "prod"
+        topology.purestorage.com/az: "west"
     - MgmtEndPoint: "1.2.3.5"
       APIToken: "b526a4c6-18b0-a8c9-1afa-3499293574bb"
+      Labels:
+        topology.purestorage.com/az: "east"
   FlashBlades:
     - MgmtEndPoint: "1.2.3.6"
       APIToken: "T-c4925090-c9bf-4033-8537-d24ee5669135"
@@ -29,6 +32,7 @@ arrays:
       Labels:
         topology.purestorage.com/rack: "7b"
         topology.purestorage.com/env: "dev"
+        topology.purestorage.com/az: "west"
 ```
 2. Clone this demo repo
 ```
@@ -55,3 +59,4 @@ kubectl apply -f cockroach.yaml
 kubectl create -f https://raw.githubusercontent.com/cockroachdb/cockroach/master/cloud/kubernetes/cluster-init.yaml
 ```
 
+Any questions? [@jon_2vcps](https://twitter.com/jon_2vcps) or file an issue.
