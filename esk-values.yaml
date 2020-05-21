@@ -1,8 +1,0 @@
-namespace:
-    pure: eks
-arrays:
-    FlashArrays:
-      - MgmtEndPoint: "172.23.2.212"
-        APIToken: "08b50c4e-c23a-848d-aea7-b4a28b7f7a3b"
-        Labels:
-          topology.purestorage.com/az: "aws"
