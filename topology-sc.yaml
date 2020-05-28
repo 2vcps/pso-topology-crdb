@@ -6,7 +6,8 @@ metadata:
     kubernetes.io/cluster-service: "true"
     chart: pure-csi
     release: "pure-storage-driver"
+allowVolumeExpansion: true 
 provisioner: pure-csi 
 volumeBindingMode: WaitForFirstConsumer
-parameters:
-    backend: block
+parameters: 
+   backend: block

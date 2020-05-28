@@ -175,4 +175,4 @@ spec:
       storageClassName: pure-file
       resources:
         requests:
-          storage: 1000Gi
+          storage: 100Gi
