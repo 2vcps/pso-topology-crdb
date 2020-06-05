@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cluster-init-clone
+  labels:
+    app: cockroachdb-clone
+spec:
+  template:
+    spec:
+      containers:
+      - name: cluster-init-clone
+        image: cockroachdb/cockroach:v20.1.1
+        imagePullPolicy: IfNotPresent
+        command:
+          - "/cockroach/cockroach"
+          - "init"
+          - "--insecure"
+          - "--host=cockroachdb-clone-0.cockroachdb"
+      restartPolicy: OnFailure

@@ -3,9 +3,9 @@ kind: Service
 metadata:
   # This service is meant to be used by clients of the database. It exposes a ClusterIP that will
   # automatically load balance connections to the different database pods.
-  name: cockroachdb-public
+  name: cockroachdb-clone-public
   labels:
-    app: cockroachdb
+    app: cockroachdb-clone
 spec:
   type: ClusterIP
   #type: LoadBalancer
@@ -20,7 +20,7 @@ spec:
     targetPort: 8080
     name: http
   selector:
-    app: cockroachdb
+    app: cockroachdb-clone
 ---
 apiVersion: v1
 kind: Service
@@ -29,9 +29,9 @@ metadata:
   # set such that they can resolve each other's IP addresses. It does not
   # create a load-balanced ClusterIP and should not be used directly by clients
   # in most circumstances.
-  name: cockroachdb
+  name: cockroachdb-clone
   labels:
-    app: cockroachdb
+    app: cockroachdb-clone
   annotations:
     # Use this annotation in addition to the actual publishNotReadyAddresses
     # field below because the annotation will stop being respected soon but the
@@ -56,34 +56,34 @@ spec:
   publishNotReadyAddresses: true
   clusterIP: None
   selector:
-    app: cockroachdb
+    app: cockroachdb-clone
 ---
 apiVersion: policy/v1beta1
 kind: PodDisruptionBudget
 metadata:
-  name: cockroachdb-budget
+  name: cockroachdb-clone-budget
   labels:
-    app: cockroachdb
+    app: cockroachdb-clone
 spec:
   selector:
     matchLabels:
-      app: cockroachdb
+      app: cockroachdb-clone
   maxUnavailable: 1
 ---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: cockroachdb
+  name: cockroachdb-clone
 spec:
-  serviceName: "cockroachdb"
+  serviceName: "cockroachdb-clone"
   replicas: 4
   selector:
     matchLabels:
-      app: cockroachdb
+      app: cockroachdb-clone
   template:
     metadata:
       labels:
-        app: cockroachdb
+        app: cockroachdb-clone
     spec:
       affinity:
         nodeAffinity:
@@ -106,10 +106,10 @@ spec:
                 - key: app
                   operator: In
                   values:
-                  - cockroachdb
+                  - cockroachdb-clone
               topologyKey: kubernetes.io/hostname
       containers:
-      - name: cockroachdb
+      - name: cockroachdb-clone
         image: cockroachdb/cockroach:v19.2.6
         imagePullPolicy: IfNotPresent
         # TODO: Change these to appropriate values for the hardware that you're running. You can see
@@ -146,7 +146,7 @@ spec:
           periodSeconds: 5
           failureThreshold: 2
         volumeMounts:
-        - name: datadir
+        - name: clone-datadir
           mountPath: /cockroach/cockroach-data
         env:
         - name: COCKROACH_CHANNEL
@@ -156,24 +156,24 @@ spec:
           - "-ecx"
           # The use of qualified `hostname -f` is crucial:
           # Other nodes aren't able to look up the unqualified hostname.
-          - "exec /cockroach/cockroach start --logtostderr --insecure --advertise-host $(hostname -f) --http-addr 0.0.0.0 --join cockroachdb-0.cockroachdb,cockroachdb-1.cockroachdb,cockroachdb-2.cockroachdb --cache 25% --max-sql-memory 25%"
+          - "exec /cockroach/cockroach start --logtostderr --insecure --advertise-host $(hostname -f) --http-addr 0.0.0.0 --join cockroachdb-clone-0.cockroachdb,cockroachdb-clone-1.cockroachdb,cockroachdb-clone-2.cockroachdb --cache 25% --max-sql-memory 25%"
       # No pre-stop hook is required, a SIGTERM plus some time is all that's
       # needed for graceful shutdown of a node.
       terminationGracePeriodSeconds: 60
       volumes:
-      - name: datadir
+      - name: clone-datadir
         persistentVolumeClaim:
-          claimName: datadir
+          claimName: clone-datadir
   podManagementPolicy: Parallel
   updateStrategy:
     type: RollingUpdate
   volumeClaimTemplates:
   - metadata:
-      name: datadir
+      name: clone-datadir
     spec:
       accessModes:
         - "ReadWriteOnce"
-      storageClassName: pure-block-delay-binding
+      storageClassName: pure-block
       dataSource:
         kind: PersistentVolumeClaim
         name: datadir-cockroachdb-0
