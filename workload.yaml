@@ -4,6 +4,15 @@ kubectl run cockroachdb -it \
 --restart=Never \
 -- workload init tpcc \
 --warehouses 100 \
-'postgresql://root@cockroachdb-public:26257?sslmode=disable'
+'postgresql://root@:26257?sslmode=disable'
 
+kubectl run cockroachdb -it \
+--image=cockroachdb/cockroach:v20.1.1 \
+--rm \
+--restart=Never \
+-- workload run tpcc \
+--warehouses 100 \
+--ramp 1m \
+--duration 60m \
+'postgresql://root@cockroachdb-public:26257?sslmode=disable'
 
