@@ -7,8 +7,8 @@ metadata:
   labels:
     app: cockroachdb
 spec:
-  type: ClusterIP
-  #type: LoadBalancer
+  #type: ClusterIP
+  type: LoadBalancer
   ports:
   # The main port, served by gRPC, serves Postgres-flavor SQL, internode
   # traffic and the cli.
