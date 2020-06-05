@@ -4,4 +4,6 @@ kubectl run cockroachdb -it \
 --restart=Never \
 -- workload init tpcc \
 --warehouses 100 \
-'postgresql://root@:26257?sslmode=disable'
+'postgresql://root@cockroachdb-public:26257?sslmode=disable'
+
+
