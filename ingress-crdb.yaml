@@ -8,8 +8,9 @@ metadata:
 spec:
   entryPoints:
     - web
+    - websecure
   routes:
-  - match: Host(`crdb.fsa.lab`)
+  - match: Host(`crdb.dev.fsa.lab`)
     kind: Rule
     services:
     - name: cockroachdb-public
