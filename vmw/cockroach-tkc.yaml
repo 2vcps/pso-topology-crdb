@@ -7,8 +7,7 @@ metadata:
   labels:
     app: cockroachdb
 spec:
-  type: ClusterIP
-  #type: LoadBalancer
+  type: LoadBalancer
   ports:
   # The main port, served by gRPC, serves Postgres-flavor SQL, internode
   # traffic and the cli.
@@ -86,17 +85,6 @@ spec:
         app: cockroachdb
     spec:
       affinity:
-        nodeAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-              nodeSelectorTerms:
-                -
-                  matchExpressions:
-                    -
-                      key: topology.purestorage.com/az
-                      operator: In
-                      values:
-                        - east
-                        - west
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
           - weight: 100
@@ -173,7 +161,7 @@ spec:
     spec:
       accessModes:
         - "ReadWriteOnce"
-      storageClassName: pure-block-delay-binding
+      storageClassName: vk8s-storage-vmfs
       resources:
         requests:
           storage: 100Gi
