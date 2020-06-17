@@ -177,3 +177,21 @@ spec:
       resources:
         requests:
           storage: 100Gi
+---
+# IngresRoute
+---
+kind: IngressRoute
+apiVersion: traefik.containo.us/v1alpha1
+metadata:
+  name: cockroachdb-ingress
+  namespace: default
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+  - match: Host(`crdb.demo.fsa.lab`)
+    kind: Rule
+    services:
+    - name: cockroachdb-public
+      port: 8080
