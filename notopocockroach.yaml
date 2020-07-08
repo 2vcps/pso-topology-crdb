@@ -86,17 +86,6 @@ spec:
         app: cockroachdb
     spec:
       affinity:
-        nodeAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-              nodeSelectorTerms:
-                -
-                  matchExpressions:
-                    -
-                      key: topology.purestorage.com/az
-                      operator: In
-                      values:
-                        - east
-                        - west
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
           - weight: 100
@@ -173,7 +162,7 @@ spec:
     spec:
       accessModes:
         - "ReadWriteOnce"
-      storageClassName: pure-block-delay-binding
+      storageClassName: pure-block
       resources:
         requests:
           storage: 100Gi
@@ -190,7 +179,7 @@ spec:
     - web
     - websecure
   routes:
-  - match: Host(`crdb.demo.fsa.lab`)
+  - match: Host(`crdb.dev.fsa.lab`)
     kind: Rule
     services:
     - name: cockroachdb-public

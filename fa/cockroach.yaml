@@ -5,9 +5,10 @@ metadata:
   # automatically load balance connections to the different database pods.
   name: cockroachdb-public
   labels:
-    app: cockroachdb
+    app: fa-cockroachdb
 spec:
-  type: LoadBalancer
+  type: ClusterIP
+  #type: LoadBalancer
   ports:
   # The main port, served by gRPC, serves Postgres-flavor SQL, internode
   # traffic and the cli.
@@ -19,7 +20,7 @@ spec:
     targetPort: 8080
     name: http
   selector:
-    app: cockroachdb
+    app: fa-cockroachdb
 ---
 apiVersion: v1
 kind: Service
@@ -30,7 +31,7 @@ metadata:
   # in most circumstances.
   name: cockroachdb
   labels:
-    app: cockroachdb
+    app: fa-cockroachdb
   annotations:
     # Use this annotation in addition to the actual publishNotReadyAddresses
     # field below because the annotation will stop being respected soon but the
@@ -55,18 +56,18 @@ spec:
   publishNotReadyAddresses: true
   clusterIP: None
   selector:
-    app: cockroachdb
+    app: fa-cockroachdb
 ---
 apiVersion: policy/v1beta1
 kind: PodDisruptionBudget
 metadata:
   name: cockroachdb-budget
   labels:
-    app: cockroachdb
+    app: fa-cockroachdb
 spec:
   selector:
     matchLabels:
-      app: cockroachdb
+      app: fa-cockroachdb
   maxUnavailable: 1
 ---
 apiVersion: apps/v1
@@ -78,11 +79,11 @@ spec:
   replicas: 4
   selector:
     matchLabels:
-      app: cockroachdb
+      app: fa-cockroachdb
   template:
     metadata:
       labels:
-        app: cockroachdb
+        app: fa-cockroachdb
     spec:
       affinity:
         nodeAffinity:
@@ -172,23 +173,24 @@ spec:
     spec:
       accessModes:
         - "ReadWriteOnce"
-      storageClassName: pure-file-delay-binding
+      storageClassName: pure-block-delay-binding
       resources:
         requests:
           storage: 100Gi
+---
 # IngresRoute
 ---
 kind: IngressRoute
 apiVersion: traefik.containo.us/v1alpha1
 metadata:
   name: cockroachdb-ingress
-  namespace: fb-cockroach
+  namespace: fa-cockroach
 spec:
   entryPoints:
     - web
     - websecure
   routes:
-  - match: Host(`fb-crdb.demo.fsa.lab`)
+  - match: Host(`crdb.demo.fsa.lab`)
     kind: Rule
     services:
     - name: cockroachdb-public

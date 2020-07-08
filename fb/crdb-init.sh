@@ -1,4 +1,4 @@
-kubectl create -f https://raw.githubusercontent.com/cockroachdb/cockroach/master/cloud/kubernetes/cluster-init.yaml
+kubectl -n fb-cockroach create -f https://raw.githubusercontent.com/cockroachdb/cockroach/master/cloud/kubernetes/cluster-init.yaml
 echo "Start the DB"
 #sleep 60
 #echo "Make some TPC-C Data"
