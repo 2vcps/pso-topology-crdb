@@ -188,7 +188,7 @@ spec:
     - web
     - websecure
   routes:
-  - match: Host(`fb-crdb.demo.fsa.lab`)
+  - match: Host(`crdb-fa.demo.fsa.lab`)
     kind: Rule
     services:
     - name: cockroachdb-public

@@ -39,7 +39,7 @@ arrays:
 ```
 2. Clone this demo repo
 ```
-git clone git@github.com:2vcps/crispy-octo-happiness.git
+git clone git@github.com:2vcps/pso-topology-crdb.git
 ```
 3. Label your compute nodes.
 For Example:
@@ -55,7 +55,7 @@ kubectl label node demo-5 topology.purestorage.com/az=west
 ```
 kubectl apply -f topology-sc.yaml
 ```
-4. Edit your statefulset to use the nodeselector. The follow example is for CockroachDB.
+4. Edit your statefulset to use the nodeselector. This example is for CockroachDB. FA version is in the folder ./fa and FlashBlade is in ./fb
 ```
 kubectl apply -f cockroach.yaml
 # initialize the db
