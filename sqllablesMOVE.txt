@@ -1,0 +1,25 @@
+kubectl label node sql-lab-0 topology.purestorage.com/az=east
+kubectl label node sql-lab-1 topology.purestorage.com/az=west
+
+kubectl label node sql-lab-2 topology.purestorage.com/az=east
+kubectl label node sql-lab-3 topology.purestorage.com/az=east
+kubectl label node sql-lab-4 topology.purestorage.com/az=east
+
+kubectl label node sql-lab-5 topology.purestorage.com/az=east
+
+kubectl label node sql-lab-6 topology.purestorage.com/az=west
+kubectl label node sql-lab-7 topology.purestorage.com/az=west
+kubectl label node sql-lab-8 topology.purestorage.com/az=west
+kubectl label node sql-lab-9 topology.purestorage.com/az=west
+
+kubectl label node sql-lab-0 topology.purestorage.com/az-
+kubectl label node sql-lab-1 topology.purestorage.com/az-
+
+kubectl label node sql-lab-2 topology.purestorage.com/az-
+kubectl label node sql-lab-3 topology.purestorage.com/az-
+kubectl label node sql-lab-4 topology.purestorage.com/az-
+kubectl label node sql-lab-5 topology.purestorage.com/az-
+kubectl label node sql-lab-6 topology.purestorage.com/az-
+
+kubectl label node sql-lab-7 topology.purestorage.com/az-
+kubectl label node sql-lab-8 topology.purestorage.com/az-

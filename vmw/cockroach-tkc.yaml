@@ -161,7 +161,7 @@ spec:
     spec:
       accessModes:
         - "ReadWriteOnce"
-      storageClassName: vk8s-storage-vmfs
+      storageClassName: cns-vvols
       resources:
         requests:
           storage: 100Gi

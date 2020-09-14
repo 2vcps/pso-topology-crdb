@@ -91,11 +91,11 @@ spec:
                 -
                   matchExpressions:
                     -
-                      key: topology.purestorage.com/az
+                      key: px/rack
                       operator: In
                       values:
-                        - east
-                        - west
+                        - rack1
+                        - rack2
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
           - weight: 100
@@ -172,7 +172,7 @@ spec:
     spec:
       accessModes:
         - "ReadWriteOnce"
-      storageClassName: pure-file-delay-binding
+      storageClassName: px-rack-sc
       resources:
         requests:
           storage: 100Gi
